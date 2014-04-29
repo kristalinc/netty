@@ -17,6 +17,7 @@ package io.netty.example.http.snoop;
 
 import io.netty.buffer.ByteBuf;
 import io.netty.buffer.Unpooled;
+import io.netty.channel.ChannelFutureListener;
 import io.netty.channel.ChannelHandlerContext;
 import io.netty.channel.SimpleChannelInboundHandler;
 import io.netty.handler.codec.DecoderResult;
@@ -154,7 +155,7 @@ public class HttpSnoopServerHandler extends SimpleChannelInboundHandler<Object> 
             response.headers().set(CONTENT_LENGTH, response.content().readableBytes());
             // Add keep alive header as per:
             // - http://www.w3.org/Protocols/HTTP/1.1/draft-ietf-http-v11-spec-01.html#Connection
-            response.headers().set(CONNECTION, HttpHeaders.Values.KEEP_ALIVE);
+            response.headers().set(CONNECTION, "close");
         }
 
         // Encode the cookie.
@@ -174,7 +175,7 @@ public class HttpSnoopServerHandler extends SimpleChannelInboundHandler<Object> 
         }
 
         // Write the response.
-        ctx.write(response);
+        ctx.write(response).addListener(ChannelFutureListener.CLOSE);
 
         return keepAlive;
     }

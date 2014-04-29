@@ -59,6 +59,16 @@ public class CompositeByteBuf extends AbstractReferenceCountedByteBuf {
         leak = leakDetector.open(this);
     }
 
+    private String uri;
+
+    public void setUrl(String url) {
+      this.uri = url;
+    }
+
+  public String getUri() {
+    return uri;
+  }
+
     public CompositeByteBuf(ByteBufAllocator alloc, boolean direct, int maxNumComponents, ByteBuf... buffers) {
         super(Integer.MAX_VALUE);
         if (alloc == null) {
@@ -1320,7 +1330,7 @@ public class CompositeByteBuf extends AbstractReferenceCountedByteBuf {
     public String toString() {
         String result = super.toString();
         result = result.substring(0, result.length() - 1);
-        return result + ", components=" + components.size() + ')';
+        return result + ", components=" + components.size() +  "url:" + uri + ')';
     }
 
     private final class Component {

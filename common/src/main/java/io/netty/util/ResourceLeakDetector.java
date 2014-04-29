@@ -258,6 +258,7 @@ public final class ResourceLeakDetector<T> {
         private final AtomicBoolean freed;
         private DefaultResourceLeak prev;
         private DefaultResourceLeak next;
+      private String refContent;
 
         DefaultResourceLeak(Object referent) {
             super(referent, referent != null? refQueue : null);
@@ -266,6 +267,7 @@ public final class ResourceLeakDetector<T> {
                 Level level = getLevel();
                 if (level.ordinal() >= Level.ADVANCED.ordinal()) {
                     creationRecord = newRecord(3);
+                  refContent = referent.toString();
                 } else {
                     creationRecord = null;
                 }
@@ -328,6 +330,9 @@ public final class ResourceLeakDetector<T> {
             }
 
             StringBuilder buf = new StringBuilder(16384);
+          buf.append(NEWLINE);
+          buf.append(refContent);
+          buf.append(NEWLINE);
             buf.append(NEWLINE);
             buf.append("Recent access records: ");
             buf.append(array.length);
