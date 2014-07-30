@@ -355,6 +355,9 @@ public final class Unpooled {
         return new CompositeByteBuf(ALLOC, false, maxNumComponents);
     }
 
+    public static CompositeByteBuf compositeBuffer(int maxNumComponents, String url) {
+        return new CompositeByteBuf(ALLOC, false, maxNumComponents, String url);
+    }
     /**
      * Creates a new big-endian buffer whose content is a copy of the
      * specified {@code array}.  The new buffer's {@code readerIndex} and

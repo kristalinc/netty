@@ -44,11 +44,16 @@ public class CompositeByteBuf extends AbstractReferenceCountedByteBuf {
     private final boolean direct;
     private final List<Component> components = new ArrayList<Component>();
     private final int maxNumComponents;
+    private String url = "UNKNOWN";
     private static final ByteBuffer FULL_BYTEBUFFER = (ByteBuffer) ByteBuffer.allocate(1).position(1);
 
     private boolean freed;
 
     public CompositeByteBuf(ByteBufAllocator alloc, boolean direct, int maxNumComponents) {
+      this(alloc, direct, maxNumComponents, "UNKNOWN");
+    }
+
+    public CompositeByteBuf(ByteBufAllocator alloc, boolean direct, int maxNumComponents, String url) {
         super(Integer.MAX_VALUE);
         if (alloc == null) {
             throw new NullPointerException("alloc");
@@ -56,7 +61,12 @@ public class CompositeByteBuf extends AbstractReferenceCountedByteBuf {
         this.alloc = alloc;
         this.direct = direct;
         this.maxNumComponents = maxNumComponents;
+        this.url = url
         leak = leakDetector.open(this);
+    }
+
+    public String getUrl() {
+        return url;
     }
 
     public CompositeByteBuf(ByteBufAllocator alloc, boolean direct, int maxNumComponents, ByteBuf... buffers) {
@@ -1320,7 +1330,7 @@ public class CompositeByteBuf extends AbstractReferenceCountedByteBuf {
     public String toString() {
         String result = super.toString();
         result = result.substring(0, result.length() - 1);
-        return result + ", components=" + components.size() + ')';
+        return result + ", components=" + components.size() +  " url:" + url + ')';
     }
 
     private final class Component {
