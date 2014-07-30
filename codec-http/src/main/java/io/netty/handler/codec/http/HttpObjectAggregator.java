@@ -145,7 +145,8 @@ public class HttpObjectAggregator extends MessageToMessageDecoder<HttpObject> {
             if (msg instanceof HttpRequest) {
                 HttpRequest header = (HttpRequest) msg;
                 this.currentMessage = currentMessage = new DefaultFullHttpRequest(header.getProtocolVersion(),
-                        header.getMethod(), header.getUri(), Unpooled.compositeBuffer(maxCumulationBufferComponents, header.getUri()));
+                        header.getMethod(), header.getUri(),
+                        Unpooled.compositeBuffer(maxCumulationBufferComponents, header.getUri()));
             } else if (msg instanceof HttpResponse) {
                 HttpResponse header = (HttpResponse) msg;
                 this.currentMessage = currentMessage = new DefaultFullHttpResponse(
