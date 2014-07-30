@@ -61,7 +61,7 @@ public class CompositeByteBuf extends AbstractReferenceCountedByteBuf {
         this.alloc = alloc;
         this.direct = direct;
         this.maxNumComponents = maxNumComponents;
-        this.url = url
+        this.url = url;
         leak = leakDetector.open(this);
     }
 
